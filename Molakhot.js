@@ -7,7 +7,7 @@ class Molakhot extends LivingCreature{
     }
 
     //yntruma shrjaka 8 vandakner
-    chooseCell(character) {
+   /* chooseCell(character) {
         var found = [];
         for (var i in this.directions) {
             var x = this.directions[i][0];
@@ -19,7 +19,8 @@ class Molakhot extends LivingCreature{
             }
         }
         return found;
-    }
+    }*/ 
+    // choose celly jarangum a
 
     // bazmanuma azat vandakneri himan vra
     mul() {

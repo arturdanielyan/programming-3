@@ -32,7 +32,7 @@ class LivingCreature {
     }
 
     chooseCell(character) {
-        this.getNewCoordinates();
+       // this.getNewCoordinates();
         var found = [];
         for (var i in this.directions) {
             var x = this.directions[i][0];

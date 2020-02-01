@@ -1,12 +1,10 @@
-class Gishatich {
+class Gishatich extends LivingCreature{
     constructor(x, y, index) {
-        this.x = x;
-        this.y = y;
-        this.index = index;
+        super(x, y, index)
         this.energy = 5;
     }
     //vorpes method
-    getNewCoordinates() {
+   /* getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -18,11 +16,12 @@ class Gishatich {
             [this.x + 1, this.y + 1]
         ];
 
-    }
+    }*/
 
     chooseCell(character) {
-        this.getNewCoordinates();
-        var found = [];
+        super.getNewCoordinates();
+        return super.chooseCell(character);
+      /*  var found = [];
         for (var i in this.directions) {
             var x = this.directions[i][0];
             var y = this.directions[i][1];
@@ -32,7 +31,7 @@ class Gishatich {
                 }
             }
         }
-        return found;
+        return found;*/
     }
     //qayluma
     move() {

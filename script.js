@@ -6,19 +6,19 @@ for (let y = 0; y < rows; y++) {
 matrix[y] = []; // Մատրիցի նոր տողի ստեղծում
 for (let x = 0; x < columns; x++) {
 let a = Math.floor(Math.random() * 100);
-if (a >= 0 && a < 50) {
+if (a >= 0 && a < 20) {
 matrix[y][x] = 0; // Մատրիցի 20 տոկոսը կլինի 0
 }
-if (a >= 50 && a < 69) {
+if (a >= 20 && a < 40) {
 matrix[y][x] = 1; // Մատրիցի 20 տոկոսը կլինի 1
 }
-else if (a >= 69 && a < 81) {
+else if (a >= 40 && a < 65) {
 matrix[y][x] = 2; // Մատրիցի 10 տոկոսը կլինի 2
 }
-else if (a >= 81 && a < 85) {
+else if (a >= 65 && a < 80) {
 matrix[y][x] = 3; // Մատրիցի 20 տոկոսը կլինի 3
 }
-else if (a >= 85 && a < 90) {
+else if (a >= 80 && a < 90) {
 matrix[y][x] = 4; // Մատրիցի 20 տոկոսը կլինի 4
 }
 else if (a >= 90 && a < 100) {
@@ -52,7 +52,7 @@ function setup() {
     frameRate(60);
     createCanvas(matrix[0].length * side, matrix.length * side);
     background('#acacac');
-    noStroke();
+    //noStroke();
 
     
 //pttvum em matrix mejov u stexcum em object

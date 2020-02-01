@@ -1,11 +1,12 @@
-class Fermer {
+class Fermer extends LivingCreature{
     constructor(x, y, index) {
-        this.x = x;
-        this.y = y;
-        this.index = index;
+        // this.x = x;
+        // this.y = y;
+        // this.index = index;
+        super(x, y, index);// HARC KA aranc super xi chashxatec?
     }
     //vorpes method
-    getNewCoordinates() {
+   /* getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -17,27 +18,15 @@ class Fermer {
             [this.x + 1, this.y + 1]
         ];
 
-    }
+    }*/
+    //getNewCoordinates-y jarangum a
 
     chooseCell(character) {
-        this.getNewCoordinates();
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+        super.getNewCoordinates();  //CHISHT A?
+        return super.chooseCell(character);
     }
-    //qayluma
-    move() {
-
-        //yntruma vandak
-        var newCell = random(this.chooseCell(0));
+    move() {  //qayluma
+        var newCell = random(this.chooseCell(0));  //yntruma vandak
 
         if (newCell) {
             var newX = newCell[0];
