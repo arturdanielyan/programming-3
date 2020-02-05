@@ -1,6 +1,7 @@
-//var LivingCreature = require("./LivingCreature")
+var LivingCreature = require("./LivingCreature");
+var GrassEater = require("./GrassEater");
 
-class Molakhot extends LivingCreature{
+module.exports = class Molakhot extends LivingCreature{
     constructor(x, y, index) {
         super(x, y, index);
         this.multiplyGr = 0;//chka
@@ -25,7 +26,9 @@ class Molakhot extends LivingCreature{
     // bazmanuma azat vandakneri himan vra
     mul() {
         this.multiply++;
-        var newCell = random(this.chooseCell(0));
+        var cells = this.chooseCell(0);
+        var randomIndex = Math.floor(Math.random() * cells.length);
+        var newCell = cells[randomIndex];
 
         if (this.multiply >= 2 && newCell) {
             var newMolakhot = new Molakhot(newCell[0], newCell[1], this.index);
@@ -36,7 +39,9 @@ class Molakhot extends LivingCreature{
     }
     mulOnGrass(){
         this.multiplyGr++
-        var newCell = random(this.chooseCell(1));
+        var cells = this.chooseCell(1);
+        var randomIndex = Math.floor(Math.random() * cells.length);
+        var newCell = cells[randomIndex];
 
         if (newCell && this.multiplyGr == 2) {
             var newX = newCell[0];
@@ -51,18 +56,15 @@ class Molakhot extends LivingCreature{
     move() {
 
         //yntruma vandak
-        var z = Math.floor(random(2));
-        if(z == 1){
-            z += 1;
-        }
-
-        var newCell = random(this.chooseCell(z));
+        var cells = this.chooseCell(Math.floor(Math.random() * 2));
+        var randomIndex = Math.floor(Math.random() * cells.length);
+        var newCell = cells[randomIndex];
 
         if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
             
-            if(z == 0){
+            if(newCell == 0){
                 matrix[this.y][this.x] = 0
             } 
             else{

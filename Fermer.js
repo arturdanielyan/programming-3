@@ -1,10 +1,13 @@
-class Fermer extends LivingCreature{
-    constructor(x, y, index) {
+var LivingCreature = require("./LivingCreature");
+var Grass = require("./Grass");
+
+module.exports = class Fermer extends LivingCreature{
+   /* constructor(x, y, index) {
         // this.x = x;
         // this.y = y;
         // this.index = index;
-        super(x, y, index);// HARC KA aranc super xi chashxatec?
-    }
+        super(x, y, index);// aranc super chashxatec
+    }*/
     //vorpes method
    /* getNewCoordinates() {
         this.directions = [
@@ -26,7 +29,9 @@ class Fermer extends LivingCreature{
         return super.chooseCell(character);
     }
     move() {  //qayluma
-        var newCell = random(this.chooseCell(0));  //yntruma vandak
+        var cells = this.chooseCell(0);
+        var randomIndex = Math.floor(Math.random() * cells.length);
+        var newCell = cells[randomIndex];
 
         if (newCell) {
             var newX = newCell[0];
@@ -43,7 +48,9 @@ class Fermer extends LivingCreature{
         }
     }
     killMol(){
-        var newCell = random(this.chooseCell(5));
+        var cells = this.chooseCell(5);
+        var randomIndex = Math.floor(Math.random() * cells.length);
+        var newCell = cells[randomIndex];
 
         if (newCell) {
             var newX = newCell[0];
