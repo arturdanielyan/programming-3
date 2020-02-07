@@ -20,7 +20,7 @@ module.exports = class GrassEater extends LivingCreature{
     }*/
 
     chooseCell(character) {
-        super.getNewCoordinates(); //HARC Xi a this-ov el ashxatum
+        super.getNewCoordinates(); //
         return super.chooseCell(character);
     }
     //qayluma
@@ -46,9 +46,7 @@ module.exports = class GrassEater extends LivingCreature{
         }
 
     }
-    eat() {
-
-
+    eat() { 
         var cells = this.chooseCell();
         var randomIndex = Math.floor(Math.random() * cells.length);
         var newCell = cells[randomIndex];

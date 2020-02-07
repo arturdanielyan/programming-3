@@ -41,3 +41,13 @@ function handleMatrix(m) {
 }
 
 socket.on("sendMatrix", handleMatrix);
+
+
+
+function Explosion(){
+    console.log("CHI ASHXATUM");
+    socket.emit("Explosion", null)
+ }
+ 
+ var p = document.getElementById("expbut");
+ p.addEventListener("click", Explosion);
