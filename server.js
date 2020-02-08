@@ -40,6 +40,9 @@ let weatherinit = 1;
 
 function startall() {
 
+    weatherinit = 1
+    weather = "SPRING"
+
     grassArr = [];
     grassEaterArr = [];
     gishatichArr = [];
@@ -216,13 +219,35 @@ io.on('connection', function (socket) {
                         }
                     }
                     matrix[y][x] = 0;
-                    io.sockets.emit("sendMatrix", matrix);
+                    
                 }
             }
         }
-
+        io.sockets.emit("sendMatrix", {m: matrix});
     });
+    
+
     socket.on("Again", function () {
         startall();
     })
 });
+
+
+
+var object = {"info" : [] }
+
+function main(){
+    var file = "Statics.json";
+    object.info.push({ "cnvac xoteri qanak " : grassArr.length});
+    console.log(object);
+    fs.writeFileSync(file, JSON.stringify(object, null, 3));
+    console.log(JSON.stringify(object));
+}
+
+setInterval(main, 6000);
+
+// var b = {
+//     g: "gug"
+// }
+
+// console.log(JSON.stringify(b,null,3))

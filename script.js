@@ -1,3 +1,5 @@
+
+
 var socket = io();
 var side = 12;
 
@@ -7,11 +9,16 @@ function setup() {
     noStroke();
 }
 
+
+
+
 socket.on("sendMatrix", drawM);
 function drawM(obj) {
+    console.log(obj, "obj");
     matrix = obj.m
     weather = obj.w
-    console.log(weather);
+    w.innerText = "WEATHER: " + weather;
+    // console.log(weather);
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
@@ -54,8 +61,13 @@ var p = document.getElementById("againbut");
 p.addEventListener("click", Again);
 
 function Again() {
-    console.log("mtav again function")
     socket.emit("Again", null);
 }
 
+var w = document.getElementById("wh");
+
+
+
+
+//socket.on("game", )
 
