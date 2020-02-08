@@ -5,7 +5,7 @@ var matrix = [];
 function setup() {
     createCanvas(35 * side, 35 * side);
     background('#acacac');
-    //noStroke();
+    noStroke();
 }
 
 function draw() {
@@ -42,12 +42,20 @@ function handleMatrix(m) {
 
 socket.on("sendMatrix", handleMatrix);
 
-
-
-function Explosion(){
-    console.log("CHI ASHXATUM");
-    socket.emit("Explosion", null)
- }
- 
  var p = document.getElementById("expbut");
  p.addEventListener("click", Explosion);
+
+function Explosion(){
+    socket.emit("Explosion", null)
+ }
+
+
+ var p = document.getElementById("againbut");
+ p.addEventListener("click", Again);
+
+ function Again(){
+     console.log("mtav again function")
+     socket.emit("Again", null);
+ }
+ 
+

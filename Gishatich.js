@@ -40,7 +40,7 @@ module.exports = class Gishatich extends LivingCreature{
 
         //yntruma vandak
 
-        var cells = this.chooseCell(Math.floor(Math.random() * 1));
+        var cells = this.chooseCell(Math.floor(Math.random() * 2));
         var randomIndex = Math.floor(Math.random() * cells.length);
         var newCell = cells[randomIndex];
 
@@ -50,10 +50,10 @@ module.exports = class Gishatich extends LivingCreature{
             var newX = newCell[0];
             var newY = newCell[1];
 
-            if(newCell == 1){
+            if(newCell == 1){ 
                 matrix[this.y][this.x] = 1;
-                var newGrass = new Grass(this.x, this.y, 1);
-                grassArr.push(newGrass);
+                //var newGrass = new Grass(this.x, this.y, 1);
+                //grassArr.push(newGrass);
             }
             else {
                 matrix[this.y][this.x] = 0;

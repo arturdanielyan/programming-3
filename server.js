@@ -8,6 +8,7 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+var fs = require("fs")
 
 app.use(express.static("."));
 
@@ -20,16 +21,28 @@ app.get('/', function (req, res) {
 
 server.listen(3000);
 
-grassArr = [];
-grassEaterArr = [];
-gishatichArr = [];
 var fermerArr = [];
-molakhotArr = [];
 
-matrix = []; // Մատրիցի ստեղծում
 
 let rows = 35; // Տողերի քանակ
 let columns = 35; // Սյուների քանակ
+
+let weather = 0;
+
+function startall(){
+
+grassArr = [];
+grassEaterArr = [];
+gishatichArr = [];
+
+molakhotArr = [];
+
+
+
+
+matrix = []; // Մատրիցի ստեղծում
+
+
 
 for (let y = 0; y < rows; y++) {
     matrix[y] = []; // Մատրիցի նոր տողի ստեղծում
@@ -55,6 +68,7 @@ for (let y = 0; y < rows; y++) {
         }
     }
 }
+
 
 for (var y = 0; y < matrix.length; y++) {
     for (var x = 0; x < matrix[y].length; x++) {
@@ -84,6 +98,12 @@ for (var y = 0; y < matrix.length; y++) {
     }
     //io.sockets.emit("sendMatrix", matrix);
 }
+}
+
+
+startall();
+
+
 
 function game() {
     for (var i in grassArr) {
@@ -114,7 +134,7 @@ function game() {
         fermerArr[i].move();
         fermerArr[i].killMol();
     }
-
+    console.log(grassEaterArr.length);
     io.sockets.emit("sendMatrix", matrix);
 }
 
@@ -123,51 +143,57 @@ setInterval(game, 1000);
 
 
 io.on('connection', function (socket) {
-    socket.on("Explosion", function (data) {
+    socket.on("Explosion", function () {
         for (var y = 0; y < matrix.length; y++) {
             for (var x = 0; x < matrix[y].length; x++) {
                 //console.log("mtav for var x");
                 if (x < 12 && y < 12) {
-                    console.log(matrix[y][x]);
-                    matrix[y][x] = 0;
-                    io.sockets.emit("sendMatrix", matrix);
+                   // console.log(matrix[y][x]);
+    
                     if (matrix[y][x] = 1) {
                         for (let i in grassArr) {
-                            if (grassEaterArr[i].x == x && grassArr[i].y == y) {
-                                grassArr.splice([i], 1)
+                            if (grassArr[i].x == x && grassArr[i].y == y) {
+                                grassArr.splice(i, 1)
                             }
                         }
                     }
                     if (matrix[y][x] = 2) {
                         for (let i in grassEaterArr) {
                             if (grassEaterArr[i].x == x && grassEaterArr[i].y == y) {
-                                grassEaterArr.splice([i], 1)
+                                grassEaterArr.splice(i, 1)
                             }
                         }
                     }
                     if (matrix[y][x] = 3) {
                         for (let i in gishatichArr) {
                             if (gishatichArr[i].x == x && gishatichArr[i].y == y) {
-                                gishatichArr.splice([i], 1)
+                                gishatichArr.splice(i, 1)
                             }
                         }
                     }
                     if (matrix[y][x] = 4) {
                         for (let i in fermerArr) {
                             if (fermerArr[i].x == x && fermerArr[i].y == y) {
-                                fermerArr.splice([i], 1)
+                                fermerArr.splice(i, 1)
                             }
                         }
                     }
                     if (matrix[y][x] = 5) {
                         for (let i in molakhotArr) {
                             if (molakhotArr[i].x == x && molakhotArr[i].y == y) {
-                                molakhotArr.splice([i], 1)
+                                molakhotArr.splice(i, 1)
                             }
                         }
                     }
+                    matrix[y][x] = 0;
+                    io.sockets.emit("sendMatrix", matrix);
                 }
             }
         }
+
     });
+    socket.on("Again", function(){
+        startall();
+        console.log("mtav serveri again")
+    })   
 });
