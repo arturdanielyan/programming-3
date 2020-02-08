@@ -1,6 +1,5 @@
 var socket = io();
 var side = 12;
-var matrix = [];
 
 function setup() {
     createCanvas(35 * side, 35 * side);
@@ -8,13 +7,20 @@ function setup() {
     noStroke();
 }
 
-function draw() {
-
+socket.on("sendMatrix", drawM);
+function drawM(obj) {
+    matrix = obj.m
+    weather = obj.w
+    console.log(weather);
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
-
             if (matrix[y][x] == 1) {
-                fill("green");
+                if (weather == "WINTER") {
+                    fill("white")
+                }
+                else {
+                    fill("green");
+                }
             }
             else if (matrix[y][x] == 2) {
                 fill("yellow");
@@ -25,8 +31,8 @@ function draw() {
             else if (matrix[y][x] == 4) {
                 fill(67, 60, 86);
             }
-            else if(matrix[y][x] == 5){
-                fill("black"); 
+            else if (matrix[y][x] == 5) {
+                fill("black");
             }
             else if (matrix[y][x] == 0) {
                 fill("#acacac");
@@ -36,26 +42,20 @@ function draw() {
     }
 }
 
-function handleMatrix(m) {
-    matrix = m;
+var p = document.getElementById("expbut");
+p.addEventListener("click", Explosion);
+
+function Explosion() {
+    socket.emit("Explosion", null)
 }
 
-socket.on("sendMatrix", handleMatrix);
 
- var p = document.getElementById("expbut");
- p.addEventListener("click", Explosion);
+var p = document.getElementById("againbut");
+p.addEventListener("click", Again);
 
-function Explosion(){
-    socket.emit("Explosion", null)
- }
+function Again() {
+    console.log("mtav again function")
+    socket.emit("Again", null);
+}
 
-
- var p = document.getElementById("againbut");
- p.addEventListener("click", Again);
-
- function Again(){
-     console.log("mtav again function")
-     socket.emit("Again", null);
- }
- 
 

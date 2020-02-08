@@ -12,11 +12,15 @@ var fs = require("fs")
 
 app.use(express.static("."));
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.get('/', function (req, res) {
     res.redirect('index.html');
 });
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 server.listen(3000);
@@ -27,85 +31,115 @@ var fermerArr = [];
 let rows = 35; // Տողերի քանակ
 let columns = 35; // Սյուների քանակ
 
-let weather = 0;
-
-function startall(){
-
-grassArr = [];
-grassEaterArr = [];
-gishatichArr = [];
-
-molakhotArr = [];
+let weather = "SPRING";
+let weatherinit = 1;
 
 
 
 
-matrix = []; // Մատրիցի ստեղծում
+
+function startall() {
+
+    grassArr = [];
+    grassEaterArr = [];
+    gishatichArr = [];
+
+    molakhotArr = [];
 
 
 
-for (let y = 0; y < rows; y++) {
-    matrix[y] = []; // Մատրիցի նոր տողի ստեղծում
-    for (let x = 0; x < columns; x++) {
-        let a = Math.floor(Math.random() * 100);
-        if (a >= 50 && a < 55) {
-            matrix[y][x] = 1;
+
+    matrix = []; // Մատրիցի ստեղծում
+
+
+
+    for (let y = 0; y < rows; y++) {
+        matrix[y] = []; // Մատրիցի նոր տողի ստեղծում
+        for (let x = 0; x < columns; x++) {
+            let a = Math.floor(Math.random() * 100);
+            if (a >= 50 && a < 55) {
+                matrix[y][x] = 1;
+            }
+            else if (a >= 60 && a < 70) {
+                matrix[y][x] = 2;
+            }
+            else if (a >= 70 && a < 80) {
+                matrix[y][x] = 3;
+            }
+            else if (a >= 80 && a < 90) {
+                matrix[y][x] = 4;
+            }
+            else if (a >= 90 && a < 100) {
+                matrix[y][x] = 5;
+            }
+            else {
+                matrix[y][x] = 0;
+            }
         }
-        else if (a >= 60 && a < 70) {
-            matrix[y][x] = 2;
-        }
-        else if (a >= 70 && a < 80) {
-            matrix[y][x] = 3;
-        }
-        else if (a >= 80 && a < 90) {
-            matrix[y][x] = 4;
-        }
-        else if (a >= 90 && a < 100) {
-            matrix[y][x] = 5;
-        }
-        else {
-            matrix[y][x] = 0;
+
+    }
+
+
+    for (var y = 0; y < matrix.length; y++) {
+        for (var x = 0; x < matrix[y].length; x++) {
+
+            if (matrix[y][x] == 1) {
+                var gr = new Grass(x, y, 1);
+                grassArr.push(gr)
+            }
+            else if (matrix[y][x] == 2) {
+                var et = new GrassEater(x, y, 2);
+                grassEaterArr.push(et);
+
+            }
+            else if (matrix[y][x] == 3) {
+                var gsho = new Gishatich(x, y, 3);
+                gishatichArr.push(gsho);
+
+            }
+            else if (matrix[y][x] == 4) {
+                var fermer = new Fermer(x, y, 4);
+                fermerArr.push(fermer);
+            }
+            else if (matrix[y][x] == 5) {
+                var mol = new Molakhot(x, y, 5);
+                molakhotArr.push(mol);
+            }
         }
     }
-}
-
-
-for (var y = 0; y < matrix.length; y++) {
-    for (var x = 0; x < matrix[y].length; x++) {
-
-        if (matrix[y][x] == 1) {
-            var gr = new Grass(x, y, 1);
-            grassArr.push(gr)
-        }
-        else if (matrix[y][x] == 2) {
-            var et = new GrassEater(x, y, 2);
-            grassEaterArr.push(et);
-
-        }
-        else if (matrix[y][x] == 3) {
-            var gsho = new Gishatich(x, y, 3);
-            gishatichArr.push(gsho);
-
-        }
-        else if (matrix[y][x] == 4) {
-            var fermer = new Fermer(x, y, 4);
-            fermerArr.push(fermer);
-        }
-        else if (matrix[y][x] == 5) {
-            var mol = new Molakhot(x, y, 5);
-            molakhotArr.push(mol);
-        }
-    }
-    //io.sockets.emit("sendMatrix", matrix);
-}
 }
 
 
 startall();
-
+var obj = {}
 
 
 function game() {
+    obj = {
+        m: matrix,
+        w: weather
+    }
+    weatherinit++;
+    console.log(weather);
+
+    if (weatherinit == 1) {
+        weather = "SPRING";
+    }
+    else if (weatherinit == 4) {
+        weather = "SUMMER";
+    }
+    else if (weatherinit == 7) {
+        weather = "AUTUMN";
+    }
+    else if (weatherinit == 10) {
+        weather = "WINTER";
+    }
+    else if (weatherinit > 11) {
+        weatherinit = 1
+    }
+
+
+
     for (var i in grassArr) {
         grassArr[i].mul();
     }
@@ -134,8 +168,7 @@ function game() {
         fermerArr[i].move();
         fermerArr[i].killMol();
     }
-    console.log(grassEaterArr.length);
-    io.sockets.emit("sendMatrix", matrix);
+    io.sockets.emit("sendMatrix", obj);
 }
 
 setInterval(game, 1000);
@@ -146,10 +179,7 @@ io.on('connection', function (socket) {
     socket.on("Explosion", function () {
         for (var y = 0; y < matrix.length; y++) {
             for (var x = 0; x < matrix[y].length; x++) {
-                //console.log("mtav for var x");
                 if (x < 12 && y < 12) {
-                   // console.log(matrix[y][x]);
-    
                     if (matrix[y][x] = 1) {
                         for (let i in grassArr) {
                             if (grassArr[i].x == x && grassArr[i].y == y) {
@@ -192,8 +222,7 @@ io.on('connection', function (socket) {
         }
 
     });
-    socket.on("Again", function(){
+    socket.on("Again", function () {
         startall();
-        console.log("mtav serveri again")
-    })   
+    })
 });

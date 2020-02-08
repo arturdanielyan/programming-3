@@ -25,7 +25,7 @@ module.exports = class Fermer extends LivingCreature{
     //getNewCoordinates-y jarangum a
 
     chooseCell(character) {
-        super.getNewCoordinates();  //CHISHT A?
+        super.getNewCoordinates();  
         return super.chooseCell(character);
     }
     move() {  //qayluma
